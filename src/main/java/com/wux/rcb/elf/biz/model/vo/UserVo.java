@@ -4,7 +4,7 @@ import com.wux.rcb.elf.biz.model.UserDO;
 
 public class UserVo  extends UserDO {
 
-    private String userImgUrl = "";
+    private String userImgUrl = "zz";
 
     public String getUserImgUrl() {
         return userImgUrl;
