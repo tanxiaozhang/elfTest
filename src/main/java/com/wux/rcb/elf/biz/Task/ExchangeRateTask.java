@@ -34,8 +34,8 @@ public class ExchangeRateTask {
         int taskSyncExchangeRatePriceCount =1;
         logger.info("start taskSyncExchangeRatePrice {} times", taskSyncExchangeRatePriceCount++);
         SocketClient socketClient = new SocketClient();
-        String destIp = "155.222.1.66";
-        int port = 22088;
+        String destIp = "";
+        int port = 0;
         String reqMsg = "acquire\n885000\n";
         String line = socketClient.read(destIp, port ,reqMsg);
         if(StringUtils.isEmpty(line)){
