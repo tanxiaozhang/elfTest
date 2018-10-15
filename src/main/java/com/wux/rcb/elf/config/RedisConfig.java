@@ -14,7 +14,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * REDIS初始化配置
  * */
 @Configuration
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 public class RedisConfig {
     private static Logger logger = LoggerFactory.getLogger(RedisConfig.class);
 

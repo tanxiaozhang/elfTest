@@ -16,9 +16,9 @@ public class BaseVo {
     private String creator;
 
     //修改者
-    private String modifyer;
+    private String modifier;
 
-    public void generateBaseInfo(Date modifyTime, Date createTime, String modifyer, String creator) {
+    public void generateBaseInfo(Date modifyTime, Date createTime, String modifier, String creator) {
         if(createTime != null){
             this.createTime = DateUtil.parseDateToStr(createTime, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS);
         }
@@ -28,8 +28,8 @@ public class BaseVo {
         if(!StringUtils.isEmpty(creator)){
             this.creator = creator;
         }
-        if(!StringUtils.isEmpty(modifyer)){
-            this.modifyer = modifyer;
+        if(!StringUtils.isEmpty(modifier)){
+            this.modifier = modifier;
         }
     }
 
@@ -57,11 +57,11 @@ public class BaseVo {
         this.creator = creator;
     }
 
-    public String getModifyer() {
-        return modifyer;
+    public String getModifier() {
+        return modifier;
     }
 
-    public void setModifyer(String modifyer) {
-        this.modifyer = modifyer;
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
     }
 }
