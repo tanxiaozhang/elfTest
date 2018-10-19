@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>数据转换规则列表</title>
+</head>
+<div align = "center">
+<h2>数据转换规则列表</h2>
+</div>
+<body>
+<div align = "center">
+    <table style="border-spacing : 30px" name = "dataConvertRuleList" >
+        <tr>
+            <th style="font-family: 黑体">业务名称</th>
+            <th style="font-family: 黑体">业务表</th>
+            <th style="font-family: 黑体">创建时间</th>
+            <th style="font-family: 黑体">创建人</th>
+            <th style="font-family: 黑体">修改时间</th>
+            <th style="font-family: 黑体">修改人</th>
+            <th style="font-family: 黑体">操作</th>
+        </tr>
+        <tr th:each="rule,ruleStat : ${ruleList}">
+            <td th:text="${rule.ruleName}"></td>
+            <td th:text="${rule.tableName}"></td>
+            <td th:text="${rule.createTime}"></td>
+            <td th:text="${rule.creator}"></td>
+            <td th:text="${rule.modifyTime}"></td>
+            <td th:text="${rule.modifier}"></td>
+            <td>
+                <button type="button" th:onclick="'javascript:eidt('+${rule.id}+',2)'">编辑</button>
+                <button type="button" th:onclick="'javascript:del('+${rule.id}+',3)'">删除</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    var message = [[${title}]];
+    console.log(message);
+</script>

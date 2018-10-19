@@ -22,7 +22,7 @@ public class ExchangeRateController {
         List<ExchangeRatePrice> exchangeRatePriceList = exchangeRateService.getExchangeRatePrices();
         map.put("updateTime", exchangeRatePriceList.get(0).getModifyTime());
         map.put("priceList", exchangeRatePriceList);
-        return "biz/exchangeRatePrice";
+        return "exchangeRatePrice";
     }
 
 }

@@ -11,8 +11,6 @@ public class DataConvertRuleDetailDo {
 
     private String dbFieldName;
 
-    private String fieldValue;
-
     private Date createTime;
 
     private Date modifyTime;
@@ -51,14 +49,6 @@ public class DataConvertRuleDetailDo {
 
     public void setDbFieldName(String dbFieldName) {
         this.dbFieldName = dbFieldName == null ? null : dbFieldName.trim();
-    }
-
-    public String getFieldValue() {
-        return fieldValue;
-    }
-
-    public void setFieldValue(String fieldValue) {
-        this.fieldValue = fieldValue == null ? null : fieldValue.trim();
     }
 
     public Date getCreateTime() {

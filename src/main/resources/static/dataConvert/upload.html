@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>数据上传</title>
+</head>
+<div align = "center">
+<h2>数据上传</h2>
+</div>
+<body>
+<div align="center">
+    <form id="uploadForm" action="/dataConvert/uploadData" method="post" enctype="multipart/form-data">
+        <label>选取业务规则</label>
+        <select name ="ruleId">
+            <option th:each="rule : ${ruleList}"
+            th:value="${rule.id}" th:text="${rule.ruleName}"></option>
+        </select>
+        <input type="file" name="fileparam">
+        <input type="button" value="提 交" onclick="sub()"/>
+    </form>
+</div>
+</body>
+<!--<script type="text/javascript" src="../jquery-3.3.1.min.js"></script> -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script th:inline="javascript">
+    var message = [[${title}]];
+    console.log(message);
+    function sub() {
+        alert('111')
+        var formData = new FormData($( "#uploadForm" )[0]);
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url:"/dataConvert/uploadData",
+            data: formData,
+            async: false,
+            processData: false,
+            contentType: false,
+            error: function(request) {
+                alert("Connection error:"+request.error);
+            },
+            success: function(data) {
+                alert("SUCCESS!");
+            }
+        });
+    }
+</script>

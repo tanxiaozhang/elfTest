@@ -17,7 +17,7 @@ spring:
 
   thymeleaf:
     cache: false
-    prefix: classpath:/templates/
+    prefix: classpath:/static/
     suffix: .html
     encoding: UTF-8
     mode: HTML5
