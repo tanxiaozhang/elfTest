@@ -130,4 +130,22 @@
       modifier = #{modifier,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <insert id="saveData">
+    insert into ${bizTableName}
+    <foreach collection="list" item="data" open="(" close=")" separator=",">
+      ${data.name}
+    </foreach>
+    values
+    <foreach collection="list" item="data" open="(" close=")" separator=",">
+        <if test="data.dbType == 'String'">
+          #{data.value, jdbcType=VARCHAR}
+        </if>
+        <if test="data.dbType == 'Numeric'">
+          #{data.value, jdbcType=NUMERIC}
+        </if>
+        <if test="data.dbType == 'Date'">
+          #{data.value, jdbcType=TIMESTAMP}
+        </if>
+    </foreach>
+  </insert>
 </mapper>

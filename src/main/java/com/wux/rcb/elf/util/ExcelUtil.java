@@ -1,17 +1,23 @@
 package com.wux.rcb.elf.util;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import com.wux.rcb.elf.biz.model.DataOption;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * EXCEL相关的处理类
  * */
 public class ExcelUtil {
+
+    private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
+
     //读取excel
     public static Workbook readExcel(String filePath){
         Workbook wb = null;
@@ -30,44 +36,49 @@ public class ExcelUtil {
                 return wb = null;
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Read excel error!");
         }
         return wb;
     }
-    public static Object getCellFormatValue(Cell cell){
-        Object cellValue = null;
+
+    public static DataOption getCellFormatValue(Cell cell){
+        DataOption dataOption = new DataOption();
         if(cell!=null){
             //判断cell类型
             switch(cell.getCellType()){
                 case Cell.CELL_TYPE_NUMERIC:{
-                    cellValue = String.valueOf(cell.getNumericCellValue());
+                    dataOption.setValue(String.valueOf(cell.getNumericCellValue()));
+                    dataOption.setDbtype("Numeric");
                     break;
                 }
                 case Cell.CELL_TYPE_FORMULA:{
                     //判断cell是否为日期格式
-                    if(DateUtil.isCellDateFormatted(cell)){
+                    if( org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)){
                         //转换为日期格式YYYY-mm-dd
-                        cellValue = cell.getDateCellValue();
+                        dataOption.setValue(cell.getDateCellValue());
+                        dataOption.setDbtype("Date");
                     }else{
                         //数字
-                        cellValue = String.valueOf(cell.getNumericCellValue());
+                        dataOption.setValue(String.valueOf(cell.getNumericCellValue()));
+                        dataOption.setDbtype("Numeric");
                     }
                     break;
                 }
                 case Cell.CELL_TYPE_STRING:{
-                    cellValue = cell.getRichStringCellValue().getString();
+                    dataOption.setValue(cell.getRichStringCellValue().getString());
+                    dataOption.setDbtype("String");
                     break;
                 }
                 default:
-                    cellValue = "";
+                    dataOption.setValue("");
+                    dataOption.setDbtype("String");
             }
         }else{
-            cellValue = "";
+            dataOption.setValue("");
+            dataOption.setDbtype("String");
         }
-        return cellValue;
+        return dataOption;
     }
 
 }

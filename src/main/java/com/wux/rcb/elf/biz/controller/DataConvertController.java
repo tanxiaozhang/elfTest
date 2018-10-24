@@ -61,11 +61,7 @@ public class DataConvertController {
             logger.error("File type error, fileName is {}", fileName);
             return "导入文件类型异常!";
         }
-        try{
-            dataConvertService.importExcelData(file, id);
-        }catch (Exception e){
-
-        }
+        dataConvertService.importExcelData(file, id);
         return "{}";
     }
 
