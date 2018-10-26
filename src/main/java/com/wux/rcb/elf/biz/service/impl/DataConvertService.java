@@ -6,15 +6,12 @@ import com.wux.rcb.elf.biz.model.DataConvertRuleDetailDo;
 import com.wux.rcb.elf.biz.model.DataConvertRuleDo;
 import com.wux.rcb.elf.biz.model.DataOption;
 import com.wux.rcb.elf.biz.model.vo.DataConvertRule;
+import com.wux.rcb.elf.biz.model.vo.DataConvertRuleDetail;
 import com.wux.rcb.elf.biz.service.IDataConvertService;
 import com.wux.rcb.elf.util.ExcelUtil;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -58,42 +55,25 @@ public class DataConvertService implements IDataConvertService {
     @Transactional
     public void importExcelData(MultipartFile file, Long id) {
         logger.info("Start import excel {}, ruleId {}", file.getOriginalFilename(), id);
-        Workbook wb;
-        boolean isOffice2003 = false;
         DataConvertRuleDo dataConvertRuleDo =  dataConvertRuleDoMapper.selectByPrimaryKey(id);
         List<DataConvertRuleDetailDo> dataConvertRuleDetailDoList = dataConvertRuleDetailDoMapper.getDetailsByRuleId(id);
         if(CollectionUtils.isEmpty(dataConvertRuleDetailDoList)){
-            logger.error("");
+            logger.error("No details found in this rule , rule id {}", id);
+            return;
         }
-        String[] columns = null;
         try {
-            if(file.getOriginalFilename().endsWith("xls")){
-                isOffice2003 = true;
-            }
-            if(isOffice2003){
-                wb = new HSSFWorkbook(file.getInputStream());
-            }
-            else {
-                wb =  new XSSFWorkbook(file.getInputStream());
-            }
+            Workbook wb = ExcelUtil.loadExcel(file.getOriginalFilename(), file.getInputStream());
             //默认只解析第一张表
             Sheet sheet = wb.getSheetAt(0);
-            logger.debug("sheet name = " + wb.getSheetName(0));
-            //默认从第一行开始解析，默认最多
+            //默认从第一行开始解析
             int columnsNum = sheet.getRow(0).getPhysicalNumberOfCells();
-            columns = new String[columnsNum];
+            String[] columns = new String[columnsNum];
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 DataOption dataOption ;
                 List<DataOption> dataList = new ArrayList<>();
                 for(int j = 0; j < row.getPhysicalNumberOfCells(); j ++){
-                    if(isOffice2003){
-                        HSSFCell cell = (HSSFCell) row.getCell(j);
-                        dataOption = ExcelUtil.getCellFormatValue(cell);
-                    }else {
-                        XSSFCell cell = (XSSFCell) row.getCell(j);
-                        dataOption = ExcelUtil.getCellFormatValue(cell);
-                    }
+                    dataOption = ExcelUtil.getCellFormatValue(row.getCell(j));
                     //业务数据封装,中文列名映射英文
                     if(i == 0){
                         for(DataConvertRuleDetailDo dataConvertRuleDetailDo : dataConvertRuleDetailDoList){
@@ -119,6 +99,49 @@ public class DataConvertService implements IDataConvertService {
 
         } catch (Exception e) {
             logger.error("Import excel file error ! fileName is {} ,error msg {}", file.getOriginalFilename(), e.getMessage());
+        }
+    }
+
+    @Override
+    public List<DataConvertRuleDetail> findRuleDetails(Long ruleId) {
+        List<DataConvertRuleDetailDo> dataConvertRuleDetailDoList = dataConvertRuleDetailDoMapper.getDetailsByRuleId(ruleId);
+        List<DataConvertRuleDetail> dataConvertRuleDetailList = new ArrayList<>();
+        dataConvertRuleDetailDoList.forEach(e->{
+            DataConvertRuleDetail dataConvertRuleDetail = new DataConvertRuleDetail();
+            BeanUtils.copyProperties(e, dataConvertRuleDetail);
+            dataConvertRuleDetailList.add(dataConvertRuleDetail);
+        });
+        return dataConvertRuleDetailList;
+    }
+
+    @Override
+    public void importRuleDetails(MultipartFile file, Long ruleId) {
+        logger.info("Start import rule detail {}, ruleId {}", file.getOriginalFilename(), ruleId);
+        try{
+            Workbook wb = ExcelUtil.loadExcel(file.getOriginalFilename(), file.getInputStream());
+            //默认只解析第一张表
+            Sheet sheet = wb.getSheetAt(0);
+            //默认从第二行开始解析内容，格式为:业务字段，表字段
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                DataConvertRuleDetailDo dataConvertRuleDetailDo = new DataConvertRuleDetailDo();
+                Row row = sheet.getRow(i);
+                DataOption dataOption;
+                for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
+                    dataOption = ExcelUtil.getCellFormatValue(row.getCell(j));
+                    if(j == 0){
+                        dataConvertRuleDetailDo.setBizFieldName(dataOption.getValue().toString());
+                    }
+                    if(j == 1){
+                        dataConvertRuleDetailDo.setDbFieldName(dataOption.getValue().toString());
+                    }
+                }
+                dataConvertRuleDetailDo.setCreateTime(new Date());
+                dataConvertRuleDetailDo.setCreator("System");
+                dataConvertRuleDetailDo.setRuleId(ruleId);
+                dataConvertRuleDetailDoMapper.insertSelective(dataConvertRuleDetailDo);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

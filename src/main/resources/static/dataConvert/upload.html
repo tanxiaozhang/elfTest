@@ -14,18 +14,18 @@
             <option th:each="rule : ${ruleList}"
             th:value="${rule.id}" th:text="${rule.ruleName}"></option>
         </select>
-        <input type="file" name="fileparam">
+        <input type="file" name="fileParam">
         <input type="button" value="提 交" onclick="sub()"/>
     </form>
 </div>
 </body>
 <!--<script type="text/javascript" src="../jquery-3.3.1.min.js"></script> -->
+<!--<script th:src="@{../js/jquery-3.3.1.min.js}" type="text/javascript"></script>-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script th:inline="javascript">
     var message = [[${title}]];
     console.log(message);
     function sub() {
-        alert('111')
         var formData = new FormData($( "#uploadForm" )[0]);
         $.ajax({
             cache: true,
@@ -36,7 +36,7 @@
             processData: false,
             contentType: false,
             error: function(request) {
-                alert("Connection error:"+request.error);
+                alert("error:"+request.error);
             },
             success: function(data) {
                 alert("SUCCESS!");

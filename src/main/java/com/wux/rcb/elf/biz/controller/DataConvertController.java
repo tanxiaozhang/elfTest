@@ -2,6 +2,7 @@ package com.wux.rcb.elf.biz.controller;
 
 import com.wux.rcb.elf.biz.model.vo.DataConvertRule;
 import com.wux.rcb.elf.biz.service.IDataConvertService;
+import com.wux.rcb.elf.util.ExcelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,14 @@ public class DataConvertController {
     @Autowired
     private IDataConvertService dataConvertService;
 
+
     @RequestMapping(value="/ruleList", method = RequestMethod.GET)
     public String ruleList(Map<String, Object> map){
         map.put("title", "规则列表");
         List<DataConvertRule> dataConvertRuleList = dataConvertService.getAllDataConvertRules();
         map.put("ruleList", dataConvertRuleList);
+        map.put("newRule", new DataConvertRule());
         return "dataConvert/ruleList";
-    }
-
-    @RequestMapping(value="/save", method = RequestMethod.POST)
-    @ResponseBody
-    public String save(Map<String, Object> map){
-        map.put("title", "规则保存");
-        return "{}";
     }
 
     @RequestMapping(value="/del", method = RequestMethod.POST)
@@ -46,22 +42,41 @@ public class DataConvertController {
         return "{}";
     }
 
-    @RequestMapping(value="/add", method = RequestMethod.GET)
+    @RequestMapping(value="/edit", method = RequestMethod.GET)
+    public String edit(@RequestParam("ruleId") Long ruleId, Map<String, Object> map){
+        map.put("title", "规则编辑");
+        map.put("ruleId", ruleId);
+        map.put("details",dataConvertService.findRuleDetails(ruleId));
+        return "dataConvert/setting";
+    }
+
+    @RequestMapping(value="/addRule", method = RequestMethod.GET)
     public String add(Map<String, Object> map){
         map.put("title", "规则新增");
         return "dataConvert/setting";
     }
 
-    @RequestMapping(value="/uploadData", method = RequestMethod.POST)
+    @RequestMapping(value="/importRuleDetail", method = RequestMethod.POST)
     @ResponseBody
-    public String uploadData(@RequestParam("fileparam") MultipartFile file, @RequestParam("ruleId") String ruleId){
+    public String importRuleDetail(@RequestParam("fileParam") MultipartFile file, @RequestParam("ruleId") Long ruleId){
         String fileName = file.getOriginalFilename();
-        Long id = Long.valueOf(ruleId);
-        if(!(fileName.endsWith("xls") || fileName.endsWith("xlsx"))){
+        if (!ExcelUtil.checkExcelFileName(fileName)) {
             logger.error("File type error, fileName is {}", fileName);
             return "导入文件类型异常!";
         }
-        dataConvertService.importExcelData(file, id);
+        dataConvertService.importRuleDetails(file, ruleId);
+        return "{}";
+    }
+
+    @RequestMapping(value="/uploadData", method = RequestMethod.POST)
+    @ResponseBody
+    public String uploadData(@RequestParam("fileParam") MultipartFile file, @RequestParam("ruleId") Long ruleId){
+        String fileName = file.getOriginalFilename();
+        if (!ExcelUtil.checkExcelFileName(fileName)) {
+            logger.error("File type error, fileName is {}", fileName);
+            return "导入文件类型异常!";
+        }
+        dataConvertService.importExcelData(file, ruleId);
         return "{}";
     }
 

@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 /**
  * EXCEL相关的处理类
@@ -38,6 +39,34 @@ public class ExcelUtil {
 
         } catch (Exception e) {
             logger.error("Read excel error!");
+        }
+        return wb;
+    }
+
+    public static boolean checkExcelFileName(String fileName) {
+        if (fileName.endsWith("xls") || fileName.endsWith("xlsx")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isOffice2003(String fileName){
+        if(!StringUtils.isEmpty(fileName) && fileName.endsWith("xls")){
+            return true;
+        }
+        return false;
+    }
+
+    public static Workbook loadExcel(String fileName, InputStream fileStream){
+        Workbook wb = null;
+        try {
+            if (isOffice2003(fileName)) {
+                wb = new HSSFWorkbook(fileStream);
+            } else {
+                wb = new XSSFWorkbook(fileStream);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return wb;
     }

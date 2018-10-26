@@ -26,11 +26,18 @@
             <td th:text="${rule.modifyTime}"></td>
             <td th:text="${rule.modifier}"></td>
             <td>
-                <button type="button" th:onclick="'javascript:eidt('+${rule.id}+',2)'">编辑</button>
+                <a th:href="@{'/dataConvert/edit?ruleId='+${rule.id}}">详情</a>
                 <button type="button" th:onclick="'javascript:del('+${rule.id}+',3)'">删除</button>
             </td>
         </tr>
     </table>
+</div>
+<div id="addRule" align="center">
+    <form id="addRuleForm" action="" th:object="${newRule}">
+        业务规则名称 : <input name="ruleName" type="text">
+        表名称 : <input name="tableName"  type="text">
+        <input type="submit" value="添 加" />
+    </form>
 </div>
 </body>
 <script th:inline="javascript">
