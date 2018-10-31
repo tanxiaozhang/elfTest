@@ -1,5 +1,7 @@
 package com.wux.rcb.elf.biz.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.wux.rcb.elf.biz.model.DataConvertRuleDo;
 import com.wux.rcb.elf.biz.model.vo.DataConvertRule;
 import com.wux.rcb.elf.biz.service.IDataConvertService;
 import com.wux.rcb.elf.util.ExcelUtil;
@@ -7,16 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@CrossOrigin
 @RequestMapping(value = "/dataConvert")
 public class DataConvertController {
 
@@ -29,10 +29,20 @@ public class DataConvertController {
     @RequestMapping(value="/ruleList", method = RequestMethod.GET)
     public String ruleList(Map<String, Object> map){
         map.put("title", "规则列表");
-        List<DataConvertRule> dataConvertRuleList = dataConvertService.getAllDataConvertRules();
+        List<DataConvertRule> dataConvertRuleList = dataConvertService.getAllDataConvertRules(null);
         map.put("ruleList", dataConvertRuleList);
         map.put("newRule", new DataConvertRule());
         return "dataConvert/ruleList";
+    }
+
+    @RequestMapping(value="/queryRuleList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String queryRuleList(@RequestBody Map<String, Object> map){
+        DataConvertRuleDo dataConvertRuleDo = new DataConvertRuleDo();
+        dataConvertRuleDo.setRuleName(map.get("ruleName") == null ? null : map.get("ruleName").toString());
+        dataConvertRuleDo.setTableName(map.get("tableName") == null ? null : map.get("tableName").toString());
+        List<DataConvertRule> dataConvertRuleList = dataConvertService.getAllDataConvertRules(dataConvertRuleDo);
+        return JSON.toJSONString(dataConvertRuleList);
     }
 
     @RequestMapping(value="/del", method = RequestMethod.POST)
@@ -82,7 +92,7 @@ public class DataConvertController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String uploadFileList(Map<String, Object> map) {
-        List<DataConvertRule> dataConvertRuleList = dataConvertService.getAllDataConvertRules();
+        List<DataConvertRule> dataConvertRuleList = dataConvertService.getAllDataConvertRules(null);
         map.put("ruleList", dataConvertRuleList);
         map.put("title", "数据文件上传");
         return "dataConvert/upload";

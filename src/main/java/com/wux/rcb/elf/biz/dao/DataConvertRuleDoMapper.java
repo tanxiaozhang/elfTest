@@ -1,6 +1,7 @@
 package com.wux.rcb.elf.biz.dao;
 
 import com.wux.rcb.elf.biz.model.DataConvertRuleDo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface DataConvertRuleDoMapper {
 
     int updateByPrimaryKey(DataConvertRuleDo record);
 
-    List<DataConvertRuleDo> selectByCondition(DataConvertRuleDo record);
+    List<DataConvertRuleDo> selectByCondition(@Param("condition") DataConvertRuleDo condition);
 }

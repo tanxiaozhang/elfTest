@@ -18,11 +18,11 @@
     <include refid="Base_Column_List" />
     from data_convert_rule
     where 1=1
-    <if test="ruleName != null" >
-      and rule_name = #{ruleName,jdbcType=VARCHAR},
+    <if test="condition.ruleName != null" >
+      and rule_name = #{condition.ruleName, jdbcType=VARCHAR}
     </if>
-    <if test="tableName != null" >
-      and table_name = #{tableName,jdbcType=VARCHAR},
+    <if test="condition.tableName != null" >
+      and table_name = #{condition.tableName, jdbcType=VARCHAR}
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >

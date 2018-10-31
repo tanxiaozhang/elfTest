@@ -36,8 +36,8 @@ public class DataConvertService implements IDataConvertService {
     private DataConvertRuleDetailDoMapper dataConvertRuleDetailDoMapper;
 
     @Override
-    public List<DataConvertRule> getAllDataConvertRules() {
-        List<DataConvertRuleDo> dataConvertRuleDoList = dataConvertRuleDoMapper.selectByCondition(new DataConvertRuleDo());
+    public List<DataConvertRule> getAllDataConvertRules(DataConvertRuleDo condition) {
+        List<DataConvertRuleDo> dataConvertRuleDoList = dataConvertRuleDoMapper.selectByCondition(condition);
         List<DataConvertRule> dataConvertRuleList = new ArrayList();
         for (DataConvertRuleDo dataConvertRuleDo : dataConvertRuleDoList) {
             DataConvertRule dataConvertRule = new DataConvertRule();
