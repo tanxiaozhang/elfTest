@@ -55,7 +55,7 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
-        <table tableName="data_convert_rule_detail" domainObjectName="DataConvertRuleDetailDo"
+        <table tableName="user" domainObjectName="UserDo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

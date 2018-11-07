@@ -1,7 +1,7 @@
 package com.wux.rcb.elf.biz.service;
 
-import com.wux.rcb.elf.biz.model.vo.UserVo;
+import com.wux.rcb.elf.biz.model.vo.User;
 
 public interface IUserService {
-    Long addUser(UserVo userVo);
+    Long addUser(User userVo);
 }
