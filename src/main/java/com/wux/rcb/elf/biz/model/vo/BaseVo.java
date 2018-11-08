@@ -7,45 +7,45 @@ import java.util.Date;
 
 public class BaseVo {
     //修改时间
-    private String modifyTime;
+    private Date modifyTime;
 
     //创建时间
-    private String createTime;
+    private Date createTime;
 
     //创建者
     private String creator;
 
     //修改者
-    private String modifyer;
+    private String modifier;
 
-    public void generateBaseInfo(Date modifyTime, Date createTime, String modifyer, String creator) {
+    public void generateBaseInfo(Date modifyTime, Date createTime, String modifier, String creator) {
         if(createTime != null){
-            this.createTime = DateUtil.parseDateToStr(createTime, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS);
+            this.createTime = createTime;
         }
         if(modifyTime != null){
-            this.modifyTime = DateUtil.parseDateToStr(modifyTime, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS);
+            this.modifyTime = modifyTime;
         }
         if(!StringUtils.isEmpty(creator)){
             this.creator = creator;
         }
-        if(!StringUtils.isEmpty(modifyer)){
-            this.modifyer = modifyer;
+        if(!StringUtils.isEmpty(modifier)){
+            this.modifier = modifier;
         }
     }
 
     public String getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(String modifyTime) {
-        this.modifyTime = modifyTime;
+        return DateUtil.parseDateToStr(modifyTime, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS);
     }
 
     public String getCreateTime() {
-        return createTime;
+        return DateUtil.parseDateToStr(createTime, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS);
     }
 
-    public void setCreateTime(String createTime) {
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -57,11 +57,11 @@ public class BaseVo {
         this.creator = creator;
     }
 
-    public String getModifyer() {
-        return modifyer;
+    public String getModifier() {
+        return modifier;
     }
 
-    public void setModifyer(String modifyer) {
-        this.modifyer = modifyer;
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
     }
 }

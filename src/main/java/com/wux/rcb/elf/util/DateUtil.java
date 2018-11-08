@@ -89,6 +89,9 @@ public class DateUtil {
      * @return 格式化后的字符串
      */
     public static String parseDateToStr(Date time, String timeFromat) {
+        if( time == null){
+            return null;
+        }
         DateFormat dateFormat = new SimpleDateFormat(timeFromat);
         return dateFormat.format(time);
     }

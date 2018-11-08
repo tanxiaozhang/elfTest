@@ -52,7 +52,7 @@ public class ExchangeRateTask {
             exchangeRatePrice.setCashPurchasePrice(priceArray[2]);
             exchangeRatePrice.setSalePrice(priceArray[3]);
             exchangeRatePrice.setMiddlePrice(priceArray[4]);
-            exchangeRatePrice.setModifyTime(priceArray[5]);
+            exchangeRatePrice.setModifyTime(DateUtil.parseStrToDate(priceArray[5], DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
             exchangeRatePrices.add(exchangeRatePrice);
         }
         exchangeRateService.saveExchangeRatePrices(exchangeRatePrices);
@@ -72,7 +72,7 @@ public class ExchangeRateTask {
         exchangeRatePrice.setCashPurchasePrice("cpp" + taskTestExchangeRatePriceCount);
         exchangeRatePrice.setSalePrice("sp" + taskTestExchangeRatePriceCount);
         exchangeRatePrice.setMiddlePrice("mp" + taskTestExchangeRatePriceCount);
-        exchangeRatePrice.setModifyTime(DateUtil.parseDateToStr(new Date(), DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
+        exchangeRatePrice.setModifyTime(new Date());
         exchangeRatePrices.add(exchangeRatePrice);
         exchangeRateService.saveExchangeRatePrices(exchangeRatePrices);
     }
