@@ -3,7 +3,7 @@ package com.wux.rcb.elf.biz.model.vo;
 /**
  * 外汇牌价对象
  * */
-public class ExchangeRatePrice extends BaseVo {
+public class ExchangeRatePrice extends BaseVO {
     //币种
     private String currency;
 
