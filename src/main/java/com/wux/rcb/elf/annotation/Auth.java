@@ -1,6 +1,5 @@
 package com.wux.rcb.elf.annotation;
 
-
 import java.lang.annotation.*;
 
 /**
