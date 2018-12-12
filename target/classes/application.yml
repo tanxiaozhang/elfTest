@@ -1,5 +1,7 @@
 server:
   port: 7001
+  tomcat:
+    max-http-header-size: 8192
 
 spring:
   redis:
@@ -17,7 +19,7 @@ spring:
 
   thymeleaf:
     cache: false
-    prefix: classpath:/templates/
+    prefix: classpath:/static/
     suffix: .html
     encoding: UTF-8
     mode: HTML5
