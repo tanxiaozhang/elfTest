@@ -10,10 +10,16 @@ spring:
     database: 0
 
   datasource:
-    url: jdbc:mysql://localhost:3306/elf
-    username: elfadmin
-    password: elfadmin
-    driver-class-name: com.mysql.jdbc.Driver
+    infoManager:
+      url: jdbc:mysql://localhost:3306/info
+      username: elfadmin
+      password: elfadmin
+      driver-class-name: com.mysql.jdbc.Driver
+    elf:
+      url: jdbc:mysql://localhost:3306/elf
+      username: elfadmin
+      password: elfadmin
+      driver-class-name: com.mysql.jdbc.Driver
 
   thymeleaf:
     cache: false
