@@ -6,14 +6,20 @@ import java.util.Date;
  * 信息系统存款明细对象
  * */
 public class GlfmxcmxDO {
+
+    /**账号*/
     String accountNo;
 
+    /**客户号*/
     String customerNo;
 
+    /**客户经理号*/
     String customerManagerNo;
 
+    /**生效时间*/
     Date startDate;
 
+    /**失效时间*/
     Date endDate;
 
     public String getAccountNo() {

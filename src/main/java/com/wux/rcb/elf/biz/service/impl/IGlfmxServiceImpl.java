@@ -19,8 +19,9 @@ public class IGlfmxServiceImpl implements IGlfmxService {
     @Autowired
     GlfmxdmxDOMapper glfmxdmxDOMapper;
 
+    //查询全量存款信息
     @Override
     public List<GlfmxcmxDO> queryAllGlfmxcmx() {
-        return null;
+        return glfmxcmxDOMapper.queryAllGlfmxcmx();
     }
 }
