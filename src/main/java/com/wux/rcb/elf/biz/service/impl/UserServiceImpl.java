@@ -23,11 +23,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean validateUser(String userName, String password) {
-        UserDO  userDO = userDOMapper.validateUser(userName, password);
-        if(userDO == null){
-            return false;
-        }
-        return true;
+    public UserDO validateUser(String userName, String password) {
+        return userDOMapper.validateUser(userName, password);
     }
 }

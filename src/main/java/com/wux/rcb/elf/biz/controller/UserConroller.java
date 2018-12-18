@@ -3,10 +3,12 @@ package com.wux.rcb.elf.biz.controller;
 import com.wux.rcb.elf.annotation.ParamJson;
 import com.wux.rcb.elf.annotation.ParamJsonHandlerMethodArgumentResolver;
 import com.wux.rcb.elf.biz.constant.TipsEnum;
+import com.wux.rcb.elf.biz.model.UserDO;
 import com.wux.rcb.elf.biz.model.vo.BaseResultVo;
 import com.wux.rcb.elf.biz.model.vo.UserVO;
 import com.wux.rcb.elf.biz.service.IUserService;
 import com.wux.rcb.elf.config.YmlUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +35,13 @@ public class UserConroller extends WebMvcConfigurationSupport {
     @RequestMapping(value="/userLogin", method = RequestMethod.POST)
     public Object userLogin(@RequestParam(value = "userName") String userName, @RequestParam(value = "password") String password){
         BaseResultVo baseResultVo = new BaseResultVo();
-        boolean userExistFlag = userService.validateUser(userName, password);
-        if(userExistFlag){
+        UserDO userDO = userService.validateUser(userName, password);
+        if(userDO != null){
+            UserVO userVO = new UserVO();
             baseResultVo.setCode(0);
             baseResultVo.generateMessage(ymlUtil.getLanguage(), TipsEnum.TIP000001);
+            BeanUtils.copyProperties(userDO, userVO);
+            baseResultVo.setResultData(userVO);
         }else{
             baseResultVo.setCode(1);
             baseResultVo.generateMessage(ymlUtil.getLanguage(), TipsEnum.TIP000002);

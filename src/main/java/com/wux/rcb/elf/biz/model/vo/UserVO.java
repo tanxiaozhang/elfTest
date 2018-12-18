@@ -1,16 +1,23 @@
 package com.wux.rcb.elf.biz.model.vo;
 
-import com.wux.rcb.elf.biz.model.UserDO;
+public class UserVO extends BaseVO {
+    private String userName;
 
-public class UserVO extends UserDO {
+    private String nickName;
 
-    private String userImgUrl = "zz";
-
-    public String getUserImgUrl() {
-        return userImgUrl;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserImgUrl(String userImgUrl) {
-        this.userImgUrl = userImgUrl;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
