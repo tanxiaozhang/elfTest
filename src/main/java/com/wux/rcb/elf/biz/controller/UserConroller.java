@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/user")
 public class UserConroller extends WebMvcConfigurationSupport {
@@ -30,10 +31,10 @@ public class UserConroller extends WebMvcConfigurationSupport {
         boolean userExistFlag = userService.validateUser(userName, password);
         if(userExistFlag){
             baseResultVo.setCode(0);
-            baseResultVo.setMessage(TipsEnum.TIP000001.tipCN);
+            baseResultVo.generateMessage(TipsEnum.TIP000001);
         }else{
             baseResultVo.setCode(1);
-            baseResultVo.setMessage(TipsEnum.TIP000002.tipCN);
+            baseResultVo.generateMessage(TipsEnum.TIP000002);
         }
         return baseResultVo;
     }
