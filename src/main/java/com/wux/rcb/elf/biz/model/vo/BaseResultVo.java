@@ -3,7 +3,6 @@ package com.wux.rcb.elf.biz.model.vo;
 import com.wux.rcb.elf.biz.constant.TipsEnum;
 import com.wux.rcb.elf.config.YmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * 统一的访问返回对象
