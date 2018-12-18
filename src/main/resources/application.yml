@@ -1,3 +1,6 @@
+elf:
+  language: CN
+
 server:
   port: 7001
 
@@ -24,6 +27,3 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapping/*.xml
-
-elf:
-  language: CN
