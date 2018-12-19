@@ -1,4 +1,4 @@
-package com.wux.rcb.elf.biz.dao;
+package com.wux.rcb.elf.biz.dao.elf;
 
 import com.wux.rcb.elf.biz.model.FtpDataImportDO;
 import com.wux.rcb.elf.biz.model.FtpDataImportDOExample;

@@ -10,17 +10,23 @@ public class GlfmxcmxDO {
     /**账号*/
     String accountNo;
 
-    /**客户号*/
+    /**客户内码*/
     String customerNo;
 
     /**客户经理号*/
     String customerManagerNo;
+
+    /**账号所属机构号*/
+    String orgNo;
 
     /**生效时间*/
     Date startDate;
 
     /**失效时间*/
     Date endDate;
+
+    /**记录状态*/
+    String status;
 
     public String getAccountNo() {
         return accountNo;
@@ -60,5 +66,21 @@ public class GlfmxcmxDO {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getOrgNo() {
+        return orgNo;
+    }
+
+    public void setOrgNo(String orgNo) {
+        this.orgNo = orgNo;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
