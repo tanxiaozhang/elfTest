@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wux.rcb.elf.biz.dao.FtpDataImportDOMapper" >
+  <resultMap id="BaseResultMap" type="com.wux.rcb.elf.biz.model.FtpDataImportDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ACCT_TYPE" property="acctType" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_NO" property="accountNo" jdbcType="VARCHAR" />
+    <result column="PRIM_CST_ID" property="primCstId" jdbcType="VARCHAR" />
+    <result column="RPRG_OU_IP_ID" property="rprgOuIpId" jdbcType="VARCHAR" />
+    <result column="MANAGER_ID" property="managerId" jdbcType="VARCHAR" />
+    <result column="PAI_RATE" property="paiRate" jdbcType="DOUBLE" />
+    <result column="STR_DATE" property="strDate" jdbcType="DATE" />
+    <result column="END_DATE" property="endDate" jdbcType="DATE" />
+    <result column="IMPORT_MODE" property="importMode" jdbcType="VARCHAR" />
+    <result column="DEAL_STATUS" property="dealStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, ACCT_TYPE, ACCOUNT_NO, PRIM_CST_ID, RPRG_OU_IP_ID, MANAGER_ID, PAI_RATE, STR_DATE, 
+    END_DATE, IMPORT_MODE, DEAL_STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wux.rcb.elf.biz.model.FtpDataImportDOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ftp_data_import
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ftp_data_import
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ftp_data_import
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wux.rcb.elf.biz.model.FtpDataImportDO" >
+    insert into ftp_data_import (id, ACCT_TYPE, ACCOUNT_NO, 
+      PRIM_CST_ID, RPRG_OU_IP_ID, MANAGER_ID, 
+      PAI_RATE, STR_DATE, END_DATE, 
+      IMPORT_MODE, DEAL_STATUS)
+    values (#{id,jdbcType=BIGINT}, #{acctType,jdbcType=VARCHAR}, #{accountNo,jdbcType=VARCHAR}, 
+      #{primCstId,jdbcType=VARCHAR}, #{rprgOuIpId,jdbcType=VARCHAR}, #{managerId,jdbcType=VARCHAR}, 
+      #{paiRate,jdbcType=DOUBLE}, #{strDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{importMode,jdbcType=VARCHAR}, #{dealStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wux.rcb.elf.biz.model.FtpDataImportDO" >
+    insert into ftp_data_import
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="acctType != null" >
+        ACCT_TYPE,
+      </if>
+      <if test="accountNo != null" >
+        ACCOUNT_NO,
+      </if>
+      <if test="primCstId != null" >
+        PRIM_CST_ID,
+      </if>
+      <if test="rprgOuIpId != null" >
+        RPRG_OU_IP_ID,
+      </if>
+      <if test="managerId != null" >
+        MANAGER_ID,
+      </if>
+      <if test="paiRate != null" >
+        PAI_RATE,
+      </if>
+      <if test="strDate != null" >
+        STR_DATE,
+      </if>
+      <if test="endDate != null" >
+        END_DATE,
+      </if>
+      <if test="importMode != null" >
+        IMPORT_MODE,
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="acctType != null" >
+        #{acctType,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="primCstId != null" >
+        #{primCstId,jdbcType=VARCHAR},
+      </if>
+      <if test="rprgOuIpId != null" >
+        #{rprgOuIpId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null" >
+        #{managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="paiRate != null" >
+        #{paiRate,jdbcType=DOUBLE},
+      </if>
+      <if test="strDate != null" >
+        #{strDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="importMode != null" >
+        #{importMode,jdbcType=VARCHAR},
+      </if>
+      <if test="dealStatus != null" >
+        #{dealStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wux.rcb.elf.biz.model.FtpDataImportDOExample" resultType="java.lang.Integer" >
+    select count(*) from ftp_data_import
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wux.rcb.elf.biz.model.FtpDataImportDO" >
+    update ftp_data_import
+    <set >
+      <if test="acctType != null" >
+        ACCT_TYPE = #{acctType,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        ACCOUNT_NO = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="primCstId != null" >
+        PRIM_CST_ID = #{primCstId,jdbcType=VARCHAR},
+      </if>
+      <if test="rprgOuIpId != null" >
+        RPRG_OU_IP_ID = #{rprgOuIpId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null" >
+        MANAGER_ID = #{managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="paiRate != null" >
+        PAI_RATE = #{paiRate,jdbcType=DOUBLE},
+      </if>
+      <if test="strDate != null" >
+        STR_DATE = #{strDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        END_DATE = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="importMode != null" >
+        IMPORT_MODE = #{importMode,jdbcType=VARCHAR},
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS = #{dealStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wux.rcb.elf.biz.model.FtpDataImportDO" >
+    update ftp_data_import
+    set ACCT_TYPE = #{acctType,jdbcType=VARCHAR},
+      ACCOUNT_NO = #{accountNo,jdbcType=VARCHAR},
+      PRIM_CST_ID = #{primCstId,jdbcType=VARCHAR},
+      RPRG_OU_IP_ID = #{rprgOuIpId,jdbcType=VARCHAR},
+      MANAGER_ID = #{managerId,jdbcType=VARCHAR},
+      PAI_RATE = #{paiRate,jdbcType=DOUBLE},
+      STR_DATE = #{strDate,jdbcType=DATE},
+      END_DATE = #{endDate,jdbcType=DATE},
+      IMPORT_MODE = #{importMode,jdbcType=VARCHAR},
+      DEAL_STATUS = #{dealStatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
