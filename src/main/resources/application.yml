@@ -1,3 +1,7 @@
+elf:
+  language: CN
+  salaryInputPath:
+  salaryOutputPath:
 
 server:
   port: 7123

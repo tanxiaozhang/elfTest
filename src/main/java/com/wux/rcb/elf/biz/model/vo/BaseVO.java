@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
-public class BaseVo {
+public class BaseVO {
     //修改时间
     private Date modifyTime;
 
