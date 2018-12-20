@@ -1,6 +1,6 @@
 package com.wux.rcb.elf.biz.dao.info;
 
-import com.wux.rcb.elf.biz.model.GlfmxcmxDO;
+import com.wux.rcb.elf.biz.model.GlfmxDO;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ public interface GlfmxcmxDOMapper {
     /**
      * 查询全量存款数据
      */
-    List<GlfmxcmxDO> queryAllGlfmxcmx();
+    List<GlfmxDO> queryAllGlfmxcmx();
 
     /**
      * 查询增量存款数据
      * */
-    List<GlfmxcmxDO> queryGlfmxcmxForUpdate();
+    List<GlfmxDO> queryGlfmxcmxForUpdate();
 }

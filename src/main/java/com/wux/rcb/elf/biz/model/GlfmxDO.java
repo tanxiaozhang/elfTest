@@ -1,11 +1,13 @@
 package com.wux.rcb.elf.biz.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 信息系统贷款明细对象
+ * 信息系统存款明细对象
  * */
-public class GlfmxdmxDO {
+public class GlfmxDO {
+
     /**账号*/
     String accountNo;
 
@@ -26,6 +28,22 @@ public class GlfmxdmxDO {
 
     /**记录状态*/
     String status;
+
+    /**分成比例*/
+    BigDecimal paiRate;
+
+    /**
+     * 账户类型 01存款 02 贷款
+     * */
+    String accountType;
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 
     public String getAccountNo() {
         return accountNo;
@@ -51,14 +69,6 @@ public class GlfmxdmxDO {
         this.customerManagerNo = customerManagerNo;
     }
 
-    public String getOrgNo() {
-        return orgNo;
-    }
-
-    public void setOrgNo(String orgNo) {
-        this.orgNo = orgNo;
-    }
-
     public Date getStartDate() {
         return startDate;
     }
@@ -75,11 +85,27 @@ public class GlfmxdmxDO {
         this.endDate = endDate;
     }
 
+    public String getOrgNo() {
+        return orgNo;
+    }
+
+    public void setOrgNo(String orgNo) {
+        this.orgNo = orgNo;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public BigDecimal getPaiRate() {
+        return paiRate;
+    }
+
+    public void setPaiRate(BigDecimal paiRate) {
+        this.paiRate = paiRate;
     }
 }

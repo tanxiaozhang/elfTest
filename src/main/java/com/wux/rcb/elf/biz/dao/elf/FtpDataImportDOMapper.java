@@ -2,6 +2,8 @@ package com.wux.rcb.elf.biz.dao.elf;
 
 import com.wux.rcb.elf.biz.model.FtpDataImportDO;
 import com.wux.rcb.elf.biz.model.FtpDataImportDOExample;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface FtpDataImportDOMapper {
@@ -20,4 +22,6 @@ public interface FtpDataImportDOMapper {
     int updateByPrimaryKeySelective(FtpDataImportDO record);
 
     int updateByPrimaryKey(FtpDataImportDO record);
+
+    void batchInsert(@Param(value = "importDataList") List<FtpDataImportDO> ftpDataImportDOList);
 }
