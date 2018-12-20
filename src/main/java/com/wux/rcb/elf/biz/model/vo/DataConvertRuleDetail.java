@@ -1,6 +1,6 @@
 package com.wux.rcb.elf.biz.model.vo;
 
-public class DataConvertRuleDetail extends BaseVo {
+public class DataConvertRuleDetail extends BaseVO {
     private Long id;
 
     private Long ruleId;

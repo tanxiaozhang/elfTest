@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 数据转换规则展示对象
  * */
-public class DataConvertRule extends BaseVo {
+public class DataConvertRule extends BaseVO {
 
     private Long id;
 
