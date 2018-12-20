@@ -1,5 +1,6 @@
+
 server:
-  port: 7001
+  port: 7123
   tomcat:
     max-http-header-size: 8192
 
