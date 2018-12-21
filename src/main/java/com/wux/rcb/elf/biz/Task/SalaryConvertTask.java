@@ -46,12 +46,11 @@ public class SalaryConvertTask {
                 logger.info("File {} is not a excel file! Next!");
                 continue;
             }
-            String outputFileName = inputFileName.split(",")[0].split("-")[1] + ".data";
+            String outputFileName = inputFileName.split("\\.")[0].split("-")[1] + ".data";
             if (outputFiles.contains(outputFileName)) {
                 logger.info("File {} exists! Next!", outputFileName);
                 continue;
             }
-            logger.info("Start convert salary file {}", inputFileName);
             salaryConvertService.convertSalary(ymlConfig.getSalaryInputPath(), inputFileName, ymlConfig.getSalaryOutputPath(), outputFileName);
         }
     }

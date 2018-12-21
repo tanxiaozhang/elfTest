@@ -4,6 +4,7 @@ import com.wux.rcb.elf.biz.model.DataOption;
 import com.wux.rcb.elf.biz.service.ISalaryConvertService;
 import com.wux.rcb.elf.util.ExcelUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -28,6 +29,7 @@ public class SalaryConvertService implements ISalaryConvertService {
 
     @Override
     public void convertSalary(String inputFilePath, String inputFileName, String outputFilePath, String outputFileName) {
+        logger.info("Start convert salary file {}", inputFileName);
         Workbook wb = ExcelUtil.readExcel(inputFilePath + "\\" + inputFileName);
         Sheet sheet = wb.getSheetAt(0);
         int columnsNum = sheet.getRow(0).getPhysicalNumberOfCells();
@@ -42,21 +44,34 @@ public class SalaryConvertService implements ISalaryConvertService {
                 DataOption dataOption;
                 String[] record = new String[6];
                 String recordString = "";
-                for(int j = 0; j < row.getPhysicalNumberOfCells(); j ++){
+                boolean recordFlag = true;
+                for(int j = 0; j < 5; j ++){
                     dataOption = ExcelUtil.getCellFormatValue(row.getCell(j));
                     //对于不是序号开始的记录进行过滤
                     if (j == 0 && (StringUtils.isBlank(dataOption.getValue().toString()) ||
                             "Numeric".equals(dataOption.getDbtype()) == false)) {
+                        recordFlag =  false;
                         break;
                     }
                     //填充数据
-                    if(j >0){
+                    if (j == 1 || j == 2) {
                         record[j] = dataOption.getValue().toString();
                     }
+                    //金额列强制读取文本格式数据避免产生精度误差
+                    if (j == 3 || j == 4) {
+                        row.getCell(j).setCellType(Cell.CELL_TYPE_STRING);
+                        record[j] = row.getCell(j).getStringCellValue();
+                    }
                 }
+                if(recordFlag == false){
+                    continue;
+                }
+                record[0] = String.valueOf(recordCount);
                 for (int k = 0; k < 8 - String.valueOf(recordCount).length(); k++) {
-                    record[0] = "0" + recordCount;
+                    record[0] = "0" + record[0];
                 }
+                //调整身份证号码位置，并设置身份证类型
+                record[5] = record[4];
                 record[4] = "101";
                 //序号自动补充0到8位数
                 if("01".equals(salaryType)){
@@ -69,9 +84,10 @@ public class SalaryConvertService implements ISalaryConvertService {
                 if("03".equals(salaryType)){
                     recordString = recordString.replaceAll(",,",",");
                 }
-                recordString += ",";
+                recordString += ",\r\n";
                 //文件输出流用于将数据写入文件
                 outStream.write(recordString.getBytes());
+                recordCount++;
             }
         }catch (Exception e){
             logger.error("convertSalary error {}",e.getMessage());
@@ -83,6 +99,6 @@ public class SalaryConvertService implements ISalaryConvertService {
                 e.printStackTrace();
             }
         }
-
+        logger.info("End convert salary file {}", inputFileName);
     }
 }

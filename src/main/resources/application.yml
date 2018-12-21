@@ -1,7 +1,7 @@
 elf:
   language: CN
-  salaryInputPath:
-  salaryOutputPath:
+  salaryInputPath: D:\salary\in
+  salaryOutputPath: D:\salary\out
 
 server:
   port: 7123
