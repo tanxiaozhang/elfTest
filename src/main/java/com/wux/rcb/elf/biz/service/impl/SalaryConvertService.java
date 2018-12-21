@@ -58,7 +58,7 @@ public class SalaryConvertService implements ISalaryConvertService {
                         record[j] = dataOption.getValue().toString();
                     }
                     //金额列强制读取文本格式数据避免产生精度误差
-                    if (j == 3 || j == 4) {
+                    if (row.getCell(j)!= null && (j == 3 || j == 4)) {
                         row.getCell(j).setCellType(Cell.CELL_TYPE_STRING);
                         record[j] = row.getCell(j).getStringCellValue();
                     }
