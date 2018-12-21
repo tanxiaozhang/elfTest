@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,19 +36,18 @@ public class SalaryConvertService implements ISalaryConvertService {
         Sheet sheet = wb.getSheetAt(0);
         if(sheet.getNumMergedRegions()>0){
             logger.error("Merged regions Exist! Stop!");
+            return;
         }
         int recordCount = 1;
         Double sumAmount = 0d;
+        List<String> dataList = new ArrayList<>();
         String salaryType = inputFileName.split("-")[0];
         FileOutputStream outStream = null;
         try{
-            File outputFile = new File(outputFilePath + "\\" + outputFileName);
-            outStream = new FileOutputStream(outputFile);
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 DataOption dataOption;
                 String[] record = new String[6];
-                String recordString = "";
                 boolean recordFlag = true;
                 for(int j = 0; j < 5; j ++){
                     dataOption = ExcelUtil.getCellFormatValue(row.getCell(j));
@@ -57,13 +58,13 @@ public class SalaryConvertService implements ISalaryConvertService {
                         break;
                     }
                     //填充数据
-                    if (j == 1 || j == 2) {
+                    if (j == 1) {
                         record[j] = dataOption.getValue().toString();
                     }
                     //金额列强制读取文本格式数据避免产生精度误差
-                    if (row.getCell(j)!= null && (j == 3 || j == 4)) {
+                    if (row.getCell(j) != null && (j == 2 || j == 3 || j == 4)) {
                         row.getCell(j).setCellType(Cell.CELL_TYPE_STRING);
-                        record[j] = row.getCell(j).getStringCellValue();
+                        record[j] = row.getCell(j).getStringCellValue().trim();
                     }
                 }
                 if(recordFlag == false){
@@ -79,6 +80,10 @@ public class SalaryConvertService implements ISalaryConvertService {
                 //序号自动补充0到8位数
                 if("01".equals(salaryType)){
                     record[5] = "";
+                    if(this.isAccountNumber(record[2]) == false){
+                        logger.error("Customer {} has a error accountNo {}! Stop!", record[1], record[2]);
+                        return;
+                    }
                 }
                 if("02".equals(salaryType) || "03".equals(salaryType)){
                     record[2] = "";
@@ -87,22 +92,29 @@ public class SalaryConvertService implements ISalaryConvertService {
                         return;
                     }
                 }
-                recordString = StringUtils.join(record, ",");
+                String recordString = StringUtils.join(record, ",");
                 if("03".equals(salaryType)){
                     recordString = recordString.replaceAll(",,",",");
                 }
                 recordString += ",\r\n";
-                //文件输出流用于将数据写入文件
-                outStream.write(recordString.getBytes());
+                dataList.add(recordString);
                 recordCount++;
                 sumAmount += Double.valueOf(record[3]);
+            }
+            //文件输出流用于将数据写入文件
+            File outputFile = new File(outputFilePath + "\\" + outputFileName);
+            outStream = new FileOutputStream(outputFile);
+            for (String recordString : dataList) {
+                outStream.write(recordString.getBytes());
             }
         }catch (Exception e){
             logger.error("convertSalary error {}",e.getMessage());
             e.printStackTrace();
         }finally {
             try {
-                outStream.close();
+                if(outStream != null){
+                    outStream.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -110,8 +122,22 @@ public class SalaryConvertService implements ISalaryConvertService {
         logger.info("End convert salary file! All {} customers and amount sum is {} ", recordCount-1, sumAmount);
     }
 
+    private boolean isAccountNumber(String account) {
+        boolean isAccountNumber = false;
+        if(StringUtils.isBlank(account)){
+            return false;
+        }
+        if(account.startsWith("6") && account.length() == 19){
+            isAccountNumber = true;
+        }
+        if(account.startsWith("1") && (account.length() == 15 || account.length() ==21)){
+            isAccountNumber = true;
+        }
+        return isAccountNumber;
+    }
+
     private boolean isIDNumber(String IDNumber) {
-        if (IDNumber == null || "".equals(IDNumber)) {
+        if (StringUtils.isBlank(IDNumber)) {
             return false;
         }
         String regularExpression = "(^[1-9]\\d{5}(18|19|20)\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$)|" + "(^[1-9]\\d{5}\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}$)";

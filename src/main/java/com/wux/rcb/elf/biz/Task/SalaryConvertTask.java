@@ -43,7 +43,7 @@ public class SalaryConvertTask {
         List<String> outputFiles = Arrays.asList(outputFilePath.list());
         for (String inputFileName : inputFiles) {
             if (!(inputFileName.endsWith("xls") || inputFileName.endsWith("xlsx"))) {
-                logger.info("File {} is not a excel file! Next!");
+                logger.info("File {} is not a excel file! Next!", inputFileName);
                 continue;
             }
             String outputFileName = inputFileName.split("\\.")[0].split("-")[1] + ".data";

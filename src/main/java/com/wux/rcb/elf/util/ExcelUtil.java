@@ -95,7 +95,7 @@ public class ExcelUtil {
                     break;
                 }
                 case Cell.CELL_TYPE_STRING:{
-                    dataOption.setValue(cell.getRichStringCellValue().getString());
+                    dataOption.setValue(cell.getRichStringCellValue().getString().trim());
                     dataOption.setDbtype("String");
                     break;
                 }
