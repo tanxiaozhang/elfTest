@@ -15,7 +15,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.wux.rcb.info.biz.dao.info", sqlSessionTemplateRef = "infoSqlSessionTemplate")
+@MapperScan(basePackages = "com.wux.rcb.elf.biz.dao.info", sqlSessionTemplateRef = "infoSqlSessionTemplate")
 public class DataSourceInfoConfig {
 
     @Bean(name = "infoDataSource")
