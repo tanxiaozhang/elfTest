@@ -27,7 +27,7 @@ public class SalaryConvertTask {
     @Autowired
     private YmlConfig ymlConfig;
 
-    @Scheduled(fixedRate = 1*60*1000)
+    @Scheduled(fixedRate = 2*60*1000)
     public void taskConvertSalary() {
         File inputFilePath = new File(ymlConfig.getSalaryInputPath());
         File outputFilePath = new File(ymlConfig.getSalaryOutputPath());

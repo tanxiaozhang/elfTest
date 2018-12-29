@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class SalaryConvertService implements ISalaryConvertService {
             return;
         }
         int recordCount = 1;
-        Double sumAmount = 0d;
+        BigDecimal sumAmount = new BigDecimal(0);
         List<String> dataList = new ArrayList<>();
         String salaryType = inputFileName.split("-")[0];
         FileOutputStream outStream = null;
@@ -65,6 +66,11 @@ public class SalaryConvertService implements ISalaryConvertService {
                     if (row.getCell(j) != null && (j == 2 || j == 3 || j == 4)) {
                         row.getCell(j).setCellType(Cell.CELL_TYPE_STRING);
                         record[j] = row.getCell(j).getStringCellValue().trim();
+                    }
+
+                    //金额保留两位小数
+                    if(j == 3){
+                        record[j] = new BigDecimal(record[j]).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
                     }
                 }
                 if(recordFlag == false){
@@ -96,10 +102,12 @@ public class SalaryConvertService implements ISalaryConvertService {
                 if("03".equals(salaryType)){
                     recordString = recordString.replaceAll(",,",",");
                 }
-                recordString += ",\r\n";
+                if(i < sheet.getLastRowNum()){
+                    recordString += ",\r\n";
+                }
                 dataList.add(recordString);
                 recordCount++;
-                sumAmount += Double.valueOf(record[3]);
+                sumAmount = sumAmount.add(new BigDecimal(record[3]));
             }
             //文件输出流用于将数据写入文件
             File outputFile = new File(outputFilePath + "\\" + outputFileName);
@@ -119,7 +127,7 @@ public class SalaryConvertService implements ISalaryConvertService {
                 e.printStackTrace();
             }
         }
-        logger.info("End convert salary file! All {} customers and amount sum is {} ", recordCount-1, sumAmount);
+        logger.info("End convert salary file! All {} customers and amount sum is {} ", recordCount-1, sumAmount.toString());
     }
 
     private boolean isAccountNumber(String account) {
@@ -130,7 +138,7 @@ public class SalaryConvertService implements ISalaryConvertService {
         if(account.startsWith("6") && account.length() == 19){
             isAccountNumber = true;
         }
-        if(account.startsWith("1") && (account.length() == 15 || account.length() ==21)){
+        if(account.startsWith("1") && (account.length() == 15 || account.length() ==22)){
             isAccountNumber = true;
         }
         return isAccountNumber;
