@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 统一的访问返回对象
  * */
-public class BaseResultVo {
+public class BaseResultVO {
 
     @Autowired
     private YmlUtil ymlUtil;
