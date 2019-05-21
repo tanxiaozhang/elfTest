@@ -1,5 +1,6 @@
 package com.wux.rcb.elf.config;
 
+import com.wux.rcb.elf.biz.constant.TipsEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -22,5 +23,13 @@ public class YmlUtil {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String generateMessage(TipsEnum tipsEnum){
+        if("CN".equals(this.getLanguage())){
+            return tipsEnum.tipCN;
+        }else{
+            return tipsEnum.tipEN;
+        }
     }
 }
