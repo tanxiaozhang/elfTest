@@ -25,6 +25,11 @@ spring:
     encoding: UTF-8
     mode: HTML5
 
+   servlet:
+     multipart:
+       max-file-size: 20MB
+       max-request-size: 20MB
+
 mybatis:
   mapper-locations: classpath:mapping/*.xml
 
