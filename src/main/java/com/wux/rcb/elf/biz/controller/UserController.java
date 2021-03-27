@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/user")
 @EnableConfigurationProperties(value={YmlUtil.class})
-public class UserConroller extends WebMvcConfigurationSupport {
+public class UserController extends WebMvcConfigurationSupport {
     @Autowired
     IUserService userService;
 
